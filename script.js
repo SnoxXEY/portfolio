@@ -1,24 +1,4 @@
 // --------------------
-// Theme toggle (stores preference)
-// --------------------
-const root = document.documentElement;
-const themeToggle = document.getElementById("themeToggle");
-
-function setTheme(theme) {
-  if (theme) root.setAttribute("data-theme", theme);
-  else root.removeAttribute("data-theme");
-  localStorage.setItem("theme", theme || "");
-}
-
-const savedTheme = localStorage.getItem("theme");
-if (savedTheme) setTheme(savedTheme);
-
-themeToggle?.addEventListener("click", () => {
-  const current = root.getAttribute("data-theme");
-  setTheme(current === "light" ? "" : "light");
-});
-
-// --------------------
 // Mobile menu
 // --------------------
 const menuBtn = document.getElementById("menuBtn");
@@ -109,7 +89,7 @@ async function loadGalleryFromGitHub() {
       .filter(x => x.type === "file")
       .filter(x => exts.some(ext => x.name.toLowerCase().endsWith(ext)))
       .filter(x => !EXCLUDE_NAMES.has(x.name.toLowerCase()))
-      .sort((a, b) => a.name.localeCompare(b.name)); // stable order
+      .sort((a, b) => a.name.localeCompare(b.name));
 
     renderGallery(images);
   } catch (err) {
