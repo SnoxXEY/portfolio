@@ -45,11 +45,16 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // --------------------
 // Gallery from GitHub /assets folder
 // --------------------
-const GITHUB_OWNER = "SnoxXEY";     // change if needed
-const GITHUB_REPO  = "portfolio";  // change if needed
+const GITHUB_OWNER = "SnoxxEY";    // <-- your actual username
+const GITHUB_REPO  = "portfolio";
 const ASSETS_PATH  = "assets";
 
 const exts = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
+
+// Exclude files from appearing in the gallery (case-insensitive)
+const EXCLUDE_NAMES = new Set([
+  "avatar.png"
+].map(x => x.toLowerCase()));
 
 let galleryItems = [];
 
@@ -77,7 +82,7 @@ function matchesSearch(item, q) {
 function sortItems(items, mode) {
   const copy = [...items];
   if (mode === "name-desc") copy.sort((a, b) => b.name.localeCompare(a.name));
-  else copy.sort((a, b) => a.name.localeCompare(b.name)); // name-asc
+  else copy.sort((a, b) => a.name.localeCompare(b.name));
   return copy;
 }
 
@@ -98,7 +103,6 @@ function renderGallery() {
     return;
   }
 
-  // Click opens image in a new tab (no overlay)
   grid.innerHTML = sorted.map((img) => {
     const safeName = escapeHtml(img.name);
     return `
@@ -133,9 +137,11 @@ async function loadGalleryFromGitHub() {
     }
 
     const items = await res.json();
+
     galleryItems = items
       .filter(x => x.type === "file")
-      .filter(x => exts.some(ext => x.name.toLowerCase().endsWith(ext)));
+      .filter(x => exts.some(ext => x.name.toLowerCase().endsWith(ext)))
+      .filter(x => !EXCLUDE_NAMES.has(x.name.toLowerCase()));
 
     if (galleryItems.length === 0) {
       statusEl.textContent = "No images found in /assets yet.";
@@ -150,5 +156,3 @@ async function loadGalleryFromGitHub() {
 }
 
 loadGalleryFromGitHub();
-
-
