@@ -24,7 +24,6 @@
 
       <nav class="nav" aria-label="Primary">
         <a href="#gallery">Gallery</a>
-        <a href="#skills">Skills</a>
       </nav>
 
       <div class="header__actions">
@@ -46,7 +45,6 @@
     <div class="mobileNav" id="mobileNav" hidden>
       <div class="container mobileNav__inner">
         <a href="#gallery">Gallery</a>
-        <a href="#skills">Skills</a>
         <a href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox</a>
       </div>
     </div>
@@ -65,8 +63,9 @@
           </p>
 
           <div class="hero__cta">
-            <a class="btn btn--primary" href="#gallery">View gallery</a>
-            <a class="btn btn--ghost" href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox profile</a>
+            <a class="btn btn--primary" href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">
+              Roblox profile
+            </a>
           </div>
         </div>
 
@@ -89,10 +88,6 @@
               <a href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox Profile</a>
             </div>
           </div>
-
-          <div class="note">
-            <strong>Available for:</strong> map building, prop packs, modular sets, environment polish
-          </div>
         </div>
       </div>
     </section>
@@ -104,49 +99,8 @@
           <h2>Gallery</h2>
         </div>
 
-        <div class="galleryBar">
-          <input id="gallerySearch" class="input" type="search"
-                 placeholder="Search images..." aria-label="Search gallery">
-          <select id="gallerySort" class="select" aria-label="Sort gallery">
-            <option value="name-asc">Sort: Name (A→Z)</option>
-            <option value="name-desc">Sort: Name (Z→A)</option>
-          </select>
-        </div>
-
         <div id="galleryGrid" class="galleryGrid" aria-live="polite"></div>
         <p id="galleryStatus" class="tiny"></p>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section__head">
-          <h2>Skills</h2>
-          <p>What I’m strong at.</p>
-        </div>
-
-        <div class="twoCol">
-          <div class="box">
-            <h3>Building</h3>
-            <ul class="list">
-              <li>Composition & layout</li>
-              <li>Lighting & atmosphere</li>
-              <li>Set dressing</li>
-              <li>Performance-minded building</li>
-            </ul>
-          </div>
-
-          <div class="box">
-            <h3>Modeling</h3>
-            <ul class="list">
-              <li>Blender workflow</li>
-              <li>Modular kits</li>
-              <li>Clean UVs</li>
-              <li>Roblox import-ready assets</li>
-            </ul>
-          </div>
-        </div>
       </div>
     </section>
   </main>
@@ -159,6 +113,6 @@
   </footer>
 
   <!-- bump v to force reload if needed -->
-  <script src="script.js?v=6"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>
