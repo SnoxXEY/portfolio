@@ -45,7 +45,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // --------------------
 // Gallery from GitHub /assets folder
 // --------------------
-const GITHUB_OWNER = "SnoxxEY";    // <-- your actual username
+const GITHUB_OWNER = "SnoxxEY";
 const GITHUB_REPO  = "portfolio";
 const ASSETS_PATH  = "assets";
 
@@ -108,7 +108,6 @@ function renderGallery() {
     return `
       <a class="gcard" href="${img.download_url}" target="_blank" rel="noreferrer" aria-label="Open ${safeName}">
         <img class="gimg" src="${img.download_url}" alt="${safeName}" loading="lazy">
-        <div class="gcap">${safeName}</div>
       </a>
     `;
   }).join("");
