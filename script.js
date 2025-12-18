@@ -18,12 +18,6 @@ mobileNav?.querySelectorAll("a").forEach(a => {
 });
 
 // --------------------
-// Footer year
-// --------------------
-const yearEl = document.getElementById("year");
-if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-// --------------------
 // Gallery: load images from GitHub /assets
 // --------------------
 const GITHUB_OWNER = "SnoxxEY";
@@ -34,7 +28,6 @@ const exts = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
 const EXCLUDE_NAMES = new Set(["avatar.png"].map(x => x.toLowerCase()));
 
 const grid = document.getElementById("galleryGrid");
-const statusEl = document.getElementById("galleryStatus");
 
 function escapeHtml(str) {
   return String(str)
@@ -50,7 +43,6 @@ function renderGallery(items) {
 
   if (!items.length) {
     grid.innerHTML = "";
-    if (statusEl) statusEl.textContent = "No images found in /assets yet.";
     return;
   }
 
@@ -62,14 +54,9 @@ function renderGallery(items) {
       </a>
     `;
   }).join("");
-
-  if (statusEl) statusEl.textContent = `Showing ${items.length} image(s).`;
 }
 
 async function loadGalleryFromGitHub() {
-  if (!statusEl) return;
-
-  statusEl.textContent = "Loading images…";
   const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ASSETS_PATH}`;
 
   try {
@@ -78,8 +65,8 @@ async function loadGalleryFromGitHub() {
     });
 
     if (!res.ok) {
-      statusEl.textContent =
-        `Couldn’t load images (GitHub API: ${res.status}). Make sure the repo is public and /assets exists.`;
+      // silently fail (no status text)
+      renderGallery([]);
       return;
     }
 
@@ -93,7 +80,8 @@ async function loadGalleryFromGitHub() {
 
     renderGallery(images);
   } catch (err) {
-    statusEl.textContent = "Error loading images. Check your connection / repo settings.";
+    // silently fail
+    renderGallery([]);
   }
 }
 
