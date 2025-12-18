@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Snoxey — Roblox builder & 3D modeler portfolio." />
+  <meta name="description" content="Snoxey — Roblox Builder & 3D Modeler portfolio." />
   <title>Snoxey — Roblox Builder & 3D Modeler</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -23,6 +24,7 @@
 
       <nav class="nav" aria-label="Primary">
         <a href="#showcase">Showcase</a>
+        <a href="#gallery">Gallery</a>
         <a href="#skills">Skills</a>
         <a href="#workflow">Workflow</a>
         <a href="#contact">Contact</a>
@@ -46,6 +48,7 @@
     <div class="mobileNav" id="mobileNav" hidden>
       <div class="container mobileNav__inner">
         <a href="#showcase">Showcase</a>
+        <a href="#gallery">Gallery</a>
         <a href="#skills">Skills</a>
         <a href="#workflow">Workflow</a>
         <a href="#contact">Contact</a>
@@ -69,23 +72,23 @@
           </p>
 
           <div class="hero__cta">
-            <a class="btn btn--primary" href="#showcase">View showcase</a>
+            <a class="btn btn--primary" href="#gallery">View gallery</a>
             <a class="btn btn--ghost" href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="btn btn--ghost" href="YOUR_CV_LINK.pdf" target="_blank" rel="noreferrer">Commission Sheet</a>
+            <a class="btn btn--ghost" href="#contact">Commission</a>
           </div>
 
           <div class="hero__stats" aria-label="Quick stats">
             <div class="stat">
               <div class="stat__num">Environments</div>
-              <div class="stat__label">Royal / modern / sci-fi</div>
+              <div class="stat__label">Interiors, castles, mood scenes</div>
             </div>
             <div class="stat">
               <div class="stat__num">Assets</div>
-              <div class="stat__label">Props, modular kits, decor</div>
+              <div class="stat__label">Props, decor packs, modular kits</div>
             </div>
             <div class="stat">
               <div class="stat__num">Optimization</div>
-              <div class="stat__label">LODs, collisions, tri budgets</div>
+              <div class="stat__label">Collision, LOD mindset, budgets</div>
             </div>
           </div>
         </div>
@@ -104,12 +107,12 @@
               <span class="chip">Blender</span>
               <span class="chip">Roblox Studio</span>
               <span class="chip">Low-Poly</span>
-              <span class="chip">PBR-ready</span>
+              <span class="chip">Environment Art</span>
             </div>
 
             <div class="card__links">
               <a href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
-              <a href="YOUR_PORTFOLIO_VIDEO" target="_blank" rel="noreferrer">Showreel</a>
+              <a href="#gallery">Gallery</a>
               <a href="mailto:YOUR_EMAIL">YOUR_EMAIL</a>
             </div>
           </div>
@@ -121,60 +124,70 @@
       </div>
     </section>
 
-    <!-- SHOWCASE -->
+    <!-- SHOWCASE (manual cards) -->
     <section class="section" id="showcase">
       <div class="container">
         <div class="section__head">
           <h2>Showcase</h2>
-          <p>Selected builds & assets. Replace the placeholders with screenshots / videos.</p>
+          <p>Highlighted work. (Gallery below auto-loads everything from <span class="mono">/assets</span>.)</p>
         </div>
 
-        <div class="filters" aria-label="Showcase filters">
-          <button class="filter is-active" data-filter="all" type="button">All</button>
-          <button class="filter" data-filter="env" type="button">Environments</button>
-          <button class="filter" data-filter="props" type="button">Props</button>
-          <button class="filter" data-filter="kits" type="button">Modular Kits</button>
-        </div>
-
-        <div class="grid" id="projectGrid">
-          <article class="pcard" data-tags="env">
+        <div class="grid">
+          <article class="pcard">
             <div class="pcard__meta">
-              <span class="tag">Environment</span><span class="tag">Mood</span><span class="tag">Lighting</span>
+              <span class="tag">Environment</span><span class="tag">Lighting</span><span class="tag">Mood</span>
             </div>
-            <h3>Royal Mansion Waiting Room</h3>
-            <p>Dark royal palette, clean composition, detailed decor, optimized for Roblox performance.</p>
-            <div class="pcard__links">
-              <a href="assets/waiting-room-1.png" target="_blank" rel="noreferrer">Image</a>
-              <a href="YOUR_VIDEO_LINK" target="_blank" rel="noreferrer">Video</a>
-            </div>
+            <h3>Royal Interior Scene</h3>
+            <p>Atmospheric interior with a rich palette and clean composition.</p>
           </article>
 
-          <article class="pcard" data-tags="props">
+          <article class="pcard">
             <div class="pcard__meta">
-              <span class="tag">Props</span><span class="tag">Low-Poly</span><span class="tag">Game-ready</span>
+              <span class="tag">Props</span><span class="tag">Pack</span><span class="tag">Game-ready</span>
             </div>
             <h3>Decor Prop Pack</h3>
-            <p>Tables, candles, frames, rugs — consistent style and collision setup.</p>
-            <div class="pcard__links">
-              <a href="assets/props-1.png" target="_blank" rel="noreferrer">Image</a>
-              <a href="YOUR_MARKETPLACE_LINK" target="_blank" rel="noreferrer">Marketplace</a>
-            </div>
+            <p>Consistent style props with practical collisions and performance in mind.</p>
           </article>
 
-          <article class="pcard" data-tags="kits">
+          <article class="pcard">
             <div class="pcard__meta">
-              <span class="tag">Modular</span><span class="tag">Snap-ready</span><span class="tag">Scalable</span>
+              <span class="tag">Modular</span><span class="tag">Kit</span><span class="tag">Fast building</span>
             </div>
-            <h3>Modular Wall + Floor Kit</h3>
-            <p>Grid-friendly kit with trims, corners, and variants for fast level building.</p>
-            <div class="pcard__links">
-              <a href="assets/modkit-1.png" target="_blank" rel="noreferrer">Image</a>
-              <a href="YOUR_REPO_LINK" target="_blank" rel="noreferrer">Files</a>
-            </div>
+            <h3>Modular Wall / Floor Kit</h3>
+            <p>Snap-friendly pieces and variants for scalable level building.</p>
           </article>
         </div>
       </div>
     </section>
+
+    <!-- GALLERY (AUTO from /assets) -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section__head">
+          <h2>Gallery</h2>
+          <p>Auto-loaded from the <span class="mono">/assets</span> folder in this GitHub repo.</p>
+        </div>
+
+        <div class="galleryBar">
+          <input id="gallerySearch" class="input" type="search" placeholder="Search images (e.g. castle, props, kit)..." aria-label="Search gallery">
+          <select id="gallerySort" class="select" aria-label="Sort gallery">
+            <option value="name-asc">Sort: Name (A→Z)</option>
+            <option value="name-desc">Sort: Name (Z→A)</option>
+          </select>
+        </div>
+
+        <div id="galleryGrid" class="galleryGrid" aria-live="polite"></div>
+        <p id="galleryStatus" class="tiny"></p>
+      </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" class="lightbox" hidden>
+      <button id="lightboxClose" class="lightbox__close" type="button" aria-label="Close">✕</button>
+      <a id="lightboxOpen" class="lightbox__open" target="_blank" rel="noreferrer">Open on GitHub</a>
+      <img id="lightboxImg" class="lightbox__img" alt="">
+      <div id="lightboxCap" class="lightbox__cap"></div>
+    </div>
 
     <!-- SKILLS -->
     <section class="section" id="skills">
@@ -198,3 +211,83 @@
           <div class="box">
             <h3>Modeling</h3>
             <ul class="list">
+              <li>Blender workflow (low-poly to detailed)</li>
+              <li>Modular kits (walls/floors/trim sets)</li>
+              <li>Clean UVs, consistent texel density</li>
+              <li>Roblox import-ready meshes & collisions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKFLOW -->
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="section__head">
+          <h2>Workflow</h2>
+          <p>How I take a build from idea → finished.</p>
+        </div>
+
+        <div class="box">
+          <div class="highlights">
+            <div class="highlight">
+              <h4>1) Blockout</h4>
+              <p>Fast graybox, scale checks, camera angles, player flow.</p>
+            </div>
+            <div class="highlight">
+              <h4>2) Style pass</h4>
+              <p>Palette, materials, primary shapes, silhouette clarity.</p>
+            </div>
+            <div class="highlight">
+              <h4>3) Detail & optimize</h4>
+              <p>Prop pass, collisions, smart budgets, clean export/import.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section__head">
+          <h2>Contact</h2>
+          <p>Commission / collaboration — easiest ways to reach me:</p>
+        </div>
+
+        <div class="twoCol">
+          <div class="box">
+            <h3>Links</h3>
+            <p class="mono">Email: YOUR_EMAIL</p>
+            <p class="mono">Discord: YOUR_TAG</p>
+            <div class="row">
+              <a class="btn btn--primary" href="mailto:YOUR_EMAIL">Email</a>
+              <a class="btn btn--ghost" href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+            <p class="tiny">Tip: GitHub Pages is static, so forms need a service (or just use email).</p>
+          </div>
+
+          <div class="box">
+            <h3>Commission info</h3>
+            <ul class="list">
+              <li><strong>Typical deliverables:</strong> environment build, prop pack, modular kit</li>
+              <li><strong>What I need:</strong> references, style direction, size + deadline</li>
+              <li><strong>Output:</strong> .rbxl/.rbxlx + assets folder</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Snoxey • Hosted on GitHub Pages</p>
+      <a href="#top" class="mono">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
