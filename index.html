@@ -25,15 +25,15 @@
       <nav class="nav" aria-label="Primary">
         <a href="#gallery">Gallery</a>
         <a href="#skills">Skills</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#contact">Contact</a>
       </nav>
 
       <div class="header__actions">
         <button id="themeToggle" class="btn btn--ghost" type="button" aria-label="Toggle theme">
           Theme
         </button>
-        <a class="btn btn--primary" href="#contact">Contact</a>
+        <a class="btn btn--primary" href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">
+          Roblox
+        </a>
       </div>
 
       <button class="menu" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
@@ -47,8 +47,7 @@
       <div class="container mobileNav__inner">
         <a href="#gallery">Gallery</a>
         <a href="#skills">Skills</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#contact">Contact</a>
+        <a href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox</a>
       </div>
     </div>
   </header>
@@ -67,23 +66,7 @@
 
           <div class="hero__cta">
             <a class="btn btn--primary" href="#gallery">View gallery</a>
-            <a class="btn btn--ghost" href="https://github.com/SnoxxEY" target="_blank" rel="noreferrer">GitHub</a>
-            <a class="btn btn--ghost" href="#contact">Commission</a>
-          </div>
-
-          <div class="hero__stats" aria-label="Quick stats">
-            <div class="stat">
-              <div class="stat__num">Environments</div>
-              <div class="stat__label">Interiors, castles, mood scenes</div>
-            </div>
-            <div class="stat">
-              <div class="stat__num">Assets</div>
-              <div class="stat__label">Props, decor packs, modular kits</div>
-            </div>
-            <div class="stat">
-              <div class="stat__num">Optimization</div>
-              <div class="stat__label">Collision, budgets, clean setups</div>
-            </div>
+            <a class="btn btn--ghost" href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox profile</a>
           </div>
         </div>
 
@@ -100,14 +83,10 @@
             <div class="chips" aria-label="Highlights">
               <span class="chip">Blender</span>
               <span class="chip">Roblox Studio</span>
-              <span class="chip">Low-Poly</span>
-              <span class="chip">Environment Art</span>
             </div>
 
             <div class="card__links">
-              <a href="https://github.com/SnoxxEY" target="_blank" rel="noreferrer">GitHub</a>
-              <a href="#gallery">Gallery</a>
-              <a href="mailto:YOUR_EMAIL">YOUR_EMAIL</a>
+              <a href="https://www.roblox.com/users/929884825/profile" target="_blank" rel="noreferrer">Roblox Profile</a>
             </div>
           </div>
 
@@ -127,7 +106,7 @@
 
         <div class="galleryBar">
           <input id="gallerySearch" class="input" type="search"
-                 placeholder="Search images (e.g. castle, props, kit)..." aria-label="Search gallery">
+                 placeholder="Search images..." aria-label="Search gallery">
           <select id="gallerySort" class="select" aria-label="Sort gallery">
             <option value="name-asc">Sort: Name (A→Z)</option>
             <option value="name-desc">Sort: Name (Z→A)</option>
@@ -144,7 +123,7 @@
       <div class="container">
         <div class="section__head">
           <h2>Skills</h2>
-          <p>What I’m strong at (and what you can hire me for).</p>
+          <p>What I’m strong at.</p>
         </div>
 
         <div class="twoCol">
@@ -170,65 +149,6 @@
         </div>
       </div>
     </section>
-
-    <!-- WORKFLOW -->
-    <section class="section" id="workflow">
-      <div class="container">
-        <div class="section__head">
-          <h2>Workflow</h2>
-          <p>How I take a build from idea → finished.</p>
-        </div>
-
-        <div class="box">
-          <div class="highlights">
-            <div class="highlight">
-              <h4>1) Blockout</h4>
-              <p>Scale checks, layout, flow.</p>
-            </div>
-            <div class="highlight">
-              <h4>2) Style pass</h4>
-              <p>Materials, palette, mood.</p>
-            </div>
-            <div class="highlight">
-              <h4>3) Polish</h4>
-              <p>Details, collisions, budgets.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="section__head">
-          <h2>Contact</h2>
-          <p>Commission / collaboration:</p>
-        </div>
-
-        <div class="twoCol">
-          <div class="box">
-            <h3>Links</h3>
-            <p class="mono">Email: YOUR_EMAIL</p>
-            <p class="mono">Discord: YOUR_TAG</p>
-            <div class="row">
-              <a class="btn btn--primary" href="mailto:YOUR_EMAIL">Email</a>
-              <a class="btn btn--ghost" href="https://github.com/SnoxxEY" target="_blank" rel="noreferrer">GitHub</a>
-            </div>
-            <p class="tiny">GitHub Pages is static — best contact is email/Discord.</p>
-          </div>
-
-          <div class="box">
-            <h3>Commission info</h3>
-            <ul class="list">
-              <li><strong>Deliverables:</strong> environment build, prop pack, modular kit</li>
-              <li><strong>Needed:</strong> references, style direction, size + deadline</li>
-              <li><strong>Output:</strong> .rbxl/.rbxlx + assets folder</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -238,7 +158,7 @@
     </div>
   </footer>
 
-  <!-- cache bust so changes show immediately -->
-  <script src="script.js?v=4"></script>
+  <!-- bump v to force reload if needed -->
+  <script src="script.js?v=6"></script>
 </body>
 </html>
