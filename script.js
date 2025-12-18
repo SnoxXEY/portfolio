@@ -45,8 +45,8 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // --------------------
 // Gallery from GitHub /assets folder
 // --------------------
-const GITHUB_OWNER = "Snoxey";     // <-- change if needed
-const GITHUB_REPO  = "portfolio";  // <-- change if needed
+const GITHUB_OWNER = "Snoxey";     // change if needed
+const GITHUB_REPO  = "portfolio";  // change if needed
 const ASSETS_PATH  = "assets";
 
 const exts = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
@@ -58,13 +58,6 @@ const statusEl = document.getElementById("galleryStatus");
 const searchEl = document.getElementById("gallerySearch");
 const sortEl = document.getElementById("gallerySort");
 
-// Lightbox elements
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
-const lightboxCap = document.getElementById("lightboxCap");
-const lightboxClose = document.getElementById("lightboxClose");
-const lightboxOpen = document.getElementById("lightboxOpen");
-
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -74,21 +67,17 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-function normalizeName(name) {
-  return name.toLowerCase().replace(/\.[^/.]+$/, ""); // remove extension
-}
-
 function matchesSearch(item, q) {
   if (!q) return true;
   const s = q.toLowerCase().trim();
-  const name = normalizeName(item.name);
-  return name.includes(s);
+  const nameNoExt = item.name.toLowerCase().replace(/\.[^/.]+$/, "");
+  return nameNoExt.includes(s);
 }
 
 function sortItems(items, mode) {
   const copy = [...items];
   if (mode === "name-desc") copy.sort((a, b) => b.name.localeCompare(a.name));
-  else copy.sort((a, b) => a.name.localeCompare(b.name)); // name-asc default
+  else copy.sort((a, b) => a.name.localeCompare(b.name)); // name-asc
   return copy;
 }
 
@@ -109,65 +98,19 @@ function renderGallery() {
     return;
   }
 
-  grid.innerHTML = sorted.map((img, idx) => {
+  // Click opens image in a new tab (no overlay)
+  grid.innerHTML = sorted.map((img) => {
     const safeName = escapeHtml(img.name);
     return `
-      <button class="gcard" type="button" data-idx="${idx}" aria-label="Open ${safeName}">
+      <a class="gcard" href="${img.download_url}" target="_blank" rel="noreferrer" aria-label="Open ${safeName}">
         <img class="gimg" src="${img.download_url}" alt="${safeName}" loading="lazy">
         <div class="gcap">${safeName}</div>
-      </button>
+      </a>
     `;
   }).join("");
 
   statusEl.textContent = `Showing ${sorted.length} of ${galleryItems.length} image(s).`;
 }
-
-function openLightbox(item) {
-  if (!lightbox) return;
-  lightboxImg.src = item.download_url;
-  lightboxImg.alt = item.name;
-  lightboxCap.textContent = item.name;
-  lightboxOpen.href = item.html_url;
-  lightbox.hidden = false;
-
-  // prevent background scroll
-  document.body.style.overflow = "hidden";
-}
-
-function closeLightbox() {
-  if (!lightbox) return;
-  lightbox.hidden = true;
-  document.body.style.overflow = "";
-  lightboxImg.src = "";
-}
-
-lightboxClose?.addEventListener("click", closeLightbox);
-lightbox?.addEventListener("click", (e) => {
-  // click outside image closes
-  if (e.target === lightbox) closeLightbox();
-});
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
-});
-
-// Delegate clicks for gallery cards
-grid?.addEventListener("click", (e) => {
-  const btn = e.target.closest("button.gcard");
-  if (!btn) return;
-
-  const idx = Number(btn.getAttribute("data-idx"));
-  if (Number.isNaN(idx)) return;
-
-  // Because we re-render, idx refers to the *currently rendered* list index,
-  // so we re-build the same list in the same order here:
-  const q = searchEl?.value || "";
-  const mode = sortEl?.value || "name-asc";
-  const filtered = galleryItems.filter(it => matchesSearch(it, q));
-  const sorted = sortItems(filtered, mode);
-
-  const item = sorted[idx];
-  if (item) openLightbox(item);
-});
 
 searchEl?.addEventListener("input", renderGallery);
 sortEl?.addEventListener("change", renderGallery);
@@ -184,7 +127,8 @@ async function loadGalleryFromGitHub() {
     });
 
     if (!res.ok) {
-      statusEl.textContent = `Couldn’t load images (GitHub API: ${res.status}). Make sure the repo is public and /assets exists.`;
+      statusEl.textContent =
+        `Couldn’t load images (GitHub API: ${res.status}). Make sure the repo is public and /assets exists.`;
       return;
     }
 
