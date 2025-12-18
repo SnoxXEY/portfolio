@@ -40,28 +40,21 @@ mobileNav?.querySelectorAll("a").forEach(a => {
 // --------------------
 // Footer year
 // --------------------
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // --------------------
-// Gallery from GitHub /assets folder
+// Gallery: load images from GitHub /assets
 // --------------------
 const GITHUB_OWNER = "SnoxxEY";
 const GITHUB_REPO  = "portfolio";
 const ASSETS_PATH  = "assets";
 
 const exts = [".png", ".jpg", ".jpeg", ".webp", ".gif"];
-
-// Exclude files from appearing in the gallery (case-insensitive)
-const EXCLUDE_NAMES = new Set([
-  "avatar.png"
-].map(x => x.toLowerCase()));
-
-let galleryItems = [];
+const EXCLUDE_NAMES = new Set(["avatar.png"].map(x => x.toLowerCase()));
 
 const grid = document.getElementById("galleryGrid");
 const statusEl = document.getElementById("galleryStatus");
-const searchEl = document.getElementById("gallerySearch");
-const sortEl = document.getElementById("gallerySort");
 
 function escapeHtml(str) {
   return String(str)
@@ -72,39 +65,16 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-function matchesSearch(item, q) {
-  if (!q) return true;
-  const s = q.toLowerCase().trim();
-  const nameNoExt = item.name.toLowerCase().replace(/\.[^/.]+$/, "");
-  return nameNoExt.includes(s);
-}
-
-function sortItems(items, mode) {
-  const copy = [...items];
-  if (mode === "name-desc") copy.sort((a, b) => b.name.localeCompare(a.name));
-  else copy.sort((a, b) => a.name.localeCompare(b.name));
-  return copy;
-}
-
-function renderGallery() {
+function renderGallery(items) {
   if (!grid) return;
 
-  const q = searchEl?.value || "";
-  const mode = sortEl?.value || "name-asc";
-
-  const filtered = galleryItems.filter(it => matchesSearch(it, q));
-  const sorted = sortItems(filtered, mode);
-
-  if (sorted.length === 0) {
+  if (!items.length) {
     grid.innerHTML = "";
-    statusEl.textContent = galleryItems.length
-      ? "No matches. Try a different search."
-      : "No images found in /assets yet.";
+    if (statusEl) statusEl.textContent = "No images found in /assets yet.";
     return;
   }
 
-  // No filename captions; click opens image in new tab
-  grid.innerHTML = sorted.map((img) => {
+  grid.innerHTML = items.map((img) => {
     const safeName = escapeHtml(img.name);
     return `
       <a class="gcard" href="${img.download_url}" target="_blank" rel="noreferrer" aria-label="Open ${safeName}">
@@ -113,11 +83,8 @@ function renderGallery() {
     `;
   }).join("");
 
-  statusEl.textContent = `Showing ${sorted.length} of ${galleryItems.length} image(s).`;
+  if (statusEl) statusEl.textContent = `Showing ${items.length} image(s).`;
 }
-
-searchEl?.addEventListener("input", renderGallery);
-sortEl?.addEventListener("change", renderGallery);
 
 async function loadGalleryFromGitHub() {
   if (!statusEl) return;
@@ -138,18 +105,13 @@ async function loadGalleryFromGitHub() {
 
     const items = await res.json();
 
-    galleryItems = items
+    const images = items
       .filter(x => x.type === "file")
       .filter(x => exts.some(ext => x.name.toLowerCase().endsWith(ext)))
-      .filter(x => !EXCLUDE_NAMES.has(x.name.toLowerCase()));
+      .filter(x => !EXCLUDE_NAMES.has(x.name.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name)); // stable order
 
-    if (galleryItems.length === 0) {
-      statusEl.textContent = "No images found in /assets yet.";
-      grid.innerHTML = "";
-      return;
-    }
-
-    renderGallery();
+    renderGallery(images);
   } catch (err) {
     statusEl.textContent = "Error loading images. Check your connection / repo settings.";
   }
