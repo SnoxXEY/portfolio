@@ -45,7 +45,7 @@ document.getElementById("year").textContent = new Date().getFullYear();
 // --------------------
 // Gallery from GitHub /assets folder
 // --------------------
-const GITHUB_OWNER = "Snoxxey";     // change if needed
+const GITHUB_OWNER = "SnoxXEY";     // change if needed
 const GITHUB_REPO  = "portfolio";  // change if needed
 const ASSETS_PATH  = "assets";
 
@@ -150,4 +150,5 @@ async function loadGalleryFromGitHub() {
 }
 
 loadGalleryFromGitHub();
+
 
