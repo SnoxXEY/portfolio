@@ -9,6 +9,8 @@
 
   --radius: 0px;
   --max: 1100px;
+
+  --gap: 14px;
 }
 
 [data-theme="light"]{
@@ -213,7 +215,7 @@ h1{
 .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .tiny{ font-size: 13px; color: var(--muted); margin-top: 10px; }
 
-/* Gallery */
+/* Gallery controls */
 .galleryBar{
   display:flex;
   gap: 10px;
@@ -231,26 +233,27 @@ h1{
 .input{ flex: 1 1 240px; }
 .select{ flex: 0 0 auto; }
 
+/* Masonry layout (CSS columns) */
 .galleryGrid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  column-count: 3;
+  column-gap: var(--gap);
 }
 
-/* Card is now a fixed box that centers the full image */
+/* Each item must avoid breaking across columns */
 .gcard{
+  display: block;
   border: 1px solid var(--border);
   background: var(--panel);
-  display: block;
   padding: 10px;
+  margin: 0 0 var(--gap);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
 }
 
-/* Show full image, no crop */
+/* Full image, no crop */
 .gimg{
   width: 100%;
-  height: 260px;          /* change to 220/320 if you want */
-  object-fit: contain;    /* <-- important: no crop */
-  object-position: center;
+  height: auto;
   display: block;
   background: #000;
 }
@@ -266,16 +269,15 @@ h1{
   flex-wrap: wrap;
 }
 
-/* Responsive */
+/* Responsive columns */
 @media (max-width: 980px){
   .hero__grid{ grid-template-columns: 1fr; }
-  .galleryGrid{ grid-template-columns: 1fr 1fr; }
   .highlights{ grid-template-columns: 1fr; }
+  .galleryGrid{ column-count: 2; }
 }
 @media (max-width: 720px){
   .nav, .header__actions{ display:none; }
   .menu{ display:block; }
-  .galleryGrid{ grid-template-columns: 1fr; }
   .twoCol{ grid-template-columns: 1fr; }
-  .gimg{ height: 280px; }
+  .galleryGrid{ column-count: 1; }
 }
