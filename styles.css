@@ -236,24 +236,23 @@ h1{
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
+
+/* Card is now a fixed box that centers the full image */
 .gcard{
   border: 1px solid var(--border);
   background: var(--panel);
-  overflow: hidden;
+  display: block;
+  padding: 10px;
 }
+
+/* Show full image, no crop */
 .gimg{
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: 260px;          /* change to 220/320 if you want */
+  object-fit: contain;    /* <-- important: no crop */
+  object-position: center;
   display: block;
   background: #000;
-}
-.gcap{
-  padding: 10px 12px;
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 13px;
-  word-break: break-word;
 }
 
 /* Footer */
@@ -278,4 +277,5 @@ h1{
   .menu{ display:block; }
   .galleryGrid{ grid-template-columns: 1fr; }
   .twoCol{ grid-template-columns: 1fr; }
+  .gimg{ height: 280px; }
 }
