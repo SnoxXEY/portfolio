@@ -73,6 +73,7 @@ a:hover{ opacity: .92; }
 .nav a:hover{ color: var(--text); }
 
 .header__actions{ display:flex; gap: 10px; align-items:center; }
+
 .menu{ display:none; background: transparent; border: 0; padding: 8px; cursor:pointer; }
 .menu__bar{ display:block; width: 22px; height: 2px; background: var(--text); margin: 4px 0; opacity:.85; }
 
@@ -90,11 +91,8 @@ a:hover{ opacity: .92; }
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--panel);
-  box-shadow: none;
   font-weight: 700;
-  cursor: p
-::contentReference[oaicite:0]{index=0}
-ointer;
+  cursor: pointer;
 }
 .btn--primary{
   background: linear-gradient(135deg, rgba(124,92,255,.75), rgba(45,212,191,.55));
@@ -282,7 +280,6 @@ h1{
   background: var(--panel);
   overflow: hidden;
   transition: transform .12s ease, background .12s ease;
-  cursor: pointer;
 }
 .gcard:hover{ transform: translateY(-2px); background: var(--panel2); }
 
@@ -301,56 +298,6 @@ h1{
   word-break: break-word;
 }
 
-/* Lightbox */
-.lightbox{
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.72);
-  backdrop-filter: blur(8px);
-  display: grid;
-  place-items: center;
-  padding: 18px;
-  z-index: 100;
-}
-.lightbox__img{
-  max-width: min(1100px, 92vw);
-  max-height: 74vh;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(255,255,255,.04);
-}
-.lightbox__cap{
-  margin-top: 10px;
-  color: rgba(255,255,255,.82);
-  font-weight: 800;
-  text-align: center;
-  max-width: min(1100px, 92vw);
-  word-break: break-word;
-}
-.lightbox__close{
-  position: fixed;
-  top: 14px;
-  right: 14px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.10);
-  color: rgba(255,255,255,.92);
-  border-radius: 14px;
-  padding: 10px 12px;
-  font-weight: 900;
-  cursor: pointer;
-}
-.lightbox__open{
-  position: fixed;
-  top: 14px;
-  left: 14px;
-  border: 1px solid rgba(255,255,255,.18);
-  background: rgba(255,255,255,.10);
-  color: rgba(255,255,255,.92);
-  border-radius: 14px;
-  padding: 10px 12px;
-  font-weight: 900;
-}
-
 /* Footer */
 .footer{
   border-top: 1px solid rgba(255,255,255,.08);
@@ -361,6 +308,9 @@ h1{
   display:flex; justify-content:space-between; align-items:center; gap: 12px;
   flex-wrap: wrap;
 }
+
+/* Ensure hidden elements actually hide */
+[hidden]{ display: none !important; }
 
 /* Responsive */
 @media (max-width: 980px){
