@@ -1,302 +1,282 @@
-:root{
-  --bg: #000000;
-  --panel: #0b0b0b;
-  --panel2:#111111;
-  --text: #eaeaea;
-  --muted:#a8a8a8;
-  --border:#222222;
-  --shadow: none;
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Snoxey — Roblox Builder & 3D Modeler portfolio." />
+  <title>Snoxey — Roblox Builder & 3D Modeler</title>
 
-  --radius: 0px;
-  --max: 1100px;
-}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-[data-theme="light"]{
-  --bg: #ffffff;
-  --panel: #f3f3f3;
-  --panel2:#e9e9e9;
-  --text: #0a0a0a;
-  --muted:#333333;
-  --border:#cccccc;
-  --shadow: none;
-}
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
 
-*{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="brand__mark">■</span>
+        <span class="brand__text">Snoxey</span>
+      </a>
 
-body{
-  margin:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: var(--bg); /* plain background */
-  color: var(--text);
-}
+      <nav class="nav" aria-label="Primary">
+        <a href="#showcase">Showcase</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#skills">Skills</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-a{ color: inherit; text-decoration: none; }
-a:hover{ opacity: .9; }
+      <div class="header__actions">
+        <button id="themeToggle" class="btn btn--ghost" type="button" aria-label="Toggle theme">
+          Theme
+        </button>
+        <a class="btn btn--primary" href="#contact">Contact</a>
+      </div>
 
-.container{ width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+      <button class="menu" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span class="menu__bar"></span>
+        <span class="menu__bar"></span>
+        <span class="menu__bar"></span>
+      </button>
+    </div>
 
-[hidden]{ display: none !important; }
+    <div class="mobileNav" id="mobileNav" hidden>
+      <div class="container mobileNav__inner">
+        <a href="#showcase">Showcase</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#skills">Skills</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
 
-.skip{
-  position:absolute; left:-999px; top: 10px;
-  background: var(--panel2);
-  border: 1px solid var(--border);
-  padding: 10px 12px;
-}
-.skip:focus{ left: 10px; z-index: 99; }
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <p class="pill">Roblox • Building • 3D Modeling</p>
+          <h1>I build Roblox environments and game-ready assets.</h1>
+          <p class="lead">
+            Hi, I’m <strong>Snoxey</strong> — a Roblox builder & 3D modeler.
+            I focus on clean composition, atmosphere, and performance-ready work.
+          </p>
 
-/* Header */
-.header{
-  position: sticky; top:0; z-index: 50;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-}
-.header__inner{
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 14px 0;
-  gap: 16px;
-}
-.brand{ display:flex; align-items:center; gap: 10px; font-weight: 800; letter-spacing:.2px; }
-.brand__mark{
-  width: 30px; height: 30px;
-  display:grid; place-items:center;
-  border: 1px solid var(--border);
-  background: var(--panel);
-}
-.nav{ display:flex; gap: 18px; }
-.nav a{ color: var(--muted); font-weight: 700; }
-.nav a:hover{ color: var(--text); }
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#gallery">View gallery</a>
+            <a class="btn btn--ghost" href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
+            <a class="btn btn--ghost" href="#contact">Commission</a>
+          </div>
 
-.header__actions{ display:flex; gap: 10px; align-items:center; }
+          <div class="hero__stats" aria-label="Quick stats">
+            <div class="stat">
+              <div class="stat__num">Environments</div>
+              <div class="stat__label">Interiors, castles, mood scenes</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">Assets</div>
+              <div class="stat__label">Props, decor packs, modular kits</div>
+            </div>
+            <div class="stat">
+              <div class="stat__num">Optimization</div>
+              <div class="stat__label">Collision, budgets, clean setups</div>
+            </div>
+          </div>
+        </div>
 
-.menu{ display:none; background: transparent; border: 1px solid var(--border); padding: 8px; cursor:pointer; }
-.menu__bar{ display:block; width: 22px; height: 2px; background: var(--text); margin: 4px 0; opacity:.85; }
+        <div class="hero__card">
+          <div class="card">
+            <div class="card__top">
+              <img class="avatar" src="assets/avatar.png" alt="Snoxey avatar" onerror="this.style.display='none'">
+              <div>
+                <h2 class="card__title">Snoxey</h2>
+                <p class="card__subtitle">Roblox Builder • 3D Modeler</p>
+              </div>
+            </div>
 
-.mobileNav{
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-}
-.mobileNav__inner{ display:flex; flex-direction:column; padding: 12px 0; gap: 10px; }
-.mobileNav a{ color: var(--muted); font-weight: 700; padding: 10px 0; }
+            <div class="chips" aria-label="Highlights">
+              <span class="chip">Blender</span>
+              <span class="chip">Roblox Studio</span>
+              <span class="chip">Low-Poly</span>
+              <span class="chip">Environment Art</span>
+            </div>
 
-/* Buttons */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text);
-  font-weight: 800;
-  cursor: pointer;
-}
-.btn--primary{
-  background: var(--text);
-  color: var(--bg);
-  border-color: var(--text);
-}
-.btn--ghost{
-  background: transparent;
-}
+            <div class="card__links">
+              <a href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="#gallery">Gallery</a>
+              <a href="mailto:YOUR_EMAIL">YOUR_EMAIL</a>
+            </div>
+          </div>
 
-/* Hero */
-.hero{ padding: 38px 0 10px; }
-.hero__grid{
-  display:grid;
-  grid-template-columns: 1.35fr .65fr;
-  gap: 22px;
-  align-items: start;
-}
-.pill{
-  display:inline-flex; align-items:center;
-  padding: 6px 10px;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 13px;
-  margin: 0 0 14px;
-}
-h1{
-  font-size: clamp(30px, 4vw, 48px);
-  line-height: 1.08;
-  margin: 0 0 12px;
-  letter-spacing: -0.5px;
-}
-.lead{ margin: 0 0 18px; color: var(--muted); font-size: 16px; line-height: 1.7; }
-.hero__cta{ display:flex; flex-wrap:wrap; gap: 10px; margin-bottom: 18px; }
+          <div class="note">
+            <strong>Available for:</strong> map building, prop packs, modular sets, environment polish
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* Stats */
-.hero__stats{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.stat{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 12px;
-}
-.stat__num{ font-weight: 900; font-size: 16px; }
-.stat__label{ color: var(--muted); font-size: 13px; margin-top: 4px; }
+    <!-- SHOWCASE -->
+    <section class="section" id="showcase">
+      <div class="container">
+        <div class="section__head">
+          <h2>Showcase</h2>
+          <p>Highlights. Gallery below auto-loads images from <span class="mono">/assets</span>.</p>
+        </div>
 
-/* Cards */
-.hero__card{ display:flex; flex-direction:column; gap: 12px; }
-.card{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 16px;
-}
-.card__top{ display:flex; gap: 12px; align-items:center; }
-.avatar{
-  width: 44px; height: 44px;
-  object-fit: cover;
-  border: 1px solid var(--border);
-}
-.card__title{ margin:0; font-size: 18px; }
-.card__subtitle{ margin: 4px 0 0; color: var(--muted); font-weight: 700; }
+        <div class="grid">
+          <article class="pcard">
+            <div class="pcard__meta">
+              <span class="tag">Environment</span><span class="tag">Lighting</span><span class="tag">Mood</span>
+            </div>
+            <h3>Royal Interior Scene</h3>
+            <p>Atmospheric interior with clean composition.</p>
+          </article>
 
-.chips{ display:flex; flex-wrap:wrap; gap: 8px; margin: 14px 0; }
-.chip{
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--muted);
-  padding: 6px 10px;
-  font-weight: 800;
-  font-size: 12px;
-}
-.card__links{ display:flex; flex-direction:column; gap: 8px; }
-.card__links a{ color: var(--muted); font-weight: 800; }
-.card__links a:hover{ color: var(--text); }
+          <article class="pcard">
+            <div class="pcard__meta">
+              <span class="tag">Props</span><span class="tag">Pack</span><span class="tag">Game-ready</span>
+            </div>
+            <h3>Decor Prop Pack</h3>
+            <p>Consistent style props with practical collisions.</p>
+          </article>
 
-.note{
-  border: 1px dashed var(--border);
-  background: transparent;
-  padding: 12px 14px;
-  color: var(--muted);
-}
+          <article class="pcard">
+            <div class="pcard__meta">
+              <span class="tag">Modular</span><span class="tag">Kit</span><span class="tag">Fast building</span>
+            </div>
+            <h3>Modular Wall / Floor Kit</h3>
+            <p>Snap-friendly pieces for scalable building.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-/* Sections */
-.section{ padding: 46px 0; }
-.section__head{ margin-bottom: 18px; }
-.section__head h2{ margin:0 0 8px; font-size: 26px; letter-spacing:-.3px; }
-.section__head p{ margin:0; color: var(--muted); }
+    <!-- GALLERY -->
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section__head">
+          <h2>Gallery</h2>
+          <p>Auto-loaded from the <span class="mono">/assets</span> folder in your repo.</p>
+        </div>
 
-.grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-.pcard{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 14px;
-}
-.pcard__meta{ display:flex; gap: 8px; flex-wrap:wrap; margin-bottom: 10px; }
-.tag{
-  font-size: 12px; font-weight: 900;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  background: transparent;
-  padding: 4px 8px;
-}
+        <div class="galleryBar">
+          <input id="gallerySearch" class="input" type="search"
+                 placeholder="Search images (e.g. castle, props, kit)..." aria-label="Search gallery">
+          <select id="gallerySort" class="select" aria-label="Sort gallery">
+            <option value="name-asc">Sort: Name (A→Z)</option>
+            <option value="name-desc">Sort: Name (Z→A)</option>
+          </select>
+        </div>
 
-.twoCol{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-.box{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 16px;
-}
-.list{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.7; }
+        <div id="galleryGrid" class="galleryGrid" aria-live="polite"></div>
+        <p id="galleryStatus" class="tiny"></p>
+      </div>
+    </section>
 
-.highlights{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 14px;
-}
-.highlight{
-  border: 1px solid var(--border);
-  background: transparent;
-  padding: 12px;
-}
-.highlight h4{ margin: 0 0 6px; }
-.highlight p{ margin: 0; color: var(--muted); line-height: 1.55; }
+    <!-- SKILLS -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section__head">
+          <h2>Skills</h2>
+          <p>What I’m strong at (and what you can hire me for).</p>
+        </div>
 
-.row{ display:flex; gap: 10px; flex-wrap:wrap; margin-top: 10px; }
+        <div class="twoCol">
+          <div class="box">
+            <h3>Building</h3>
+            <ul class="list">
+              <li>Composition & layout</li>
+              <li>Lighting & atmosphere</li>
+              <li>Set dressing</li>
+              <li>Performance-minded building</li>
+            </ul>
+          </div>
 
-.mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.tiny{ font-size: 13px; color: var(--muted); margin-top: 10px; }
+          <div class="box">
+            <h3>Modeling</h3>
+            <ul class="list">
+              <li>Blender workflow</li>
+              <li>Modular kits</li>
+              <li>Clean UVs</li>
+              <li>Roblox import-ready assets</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* Gallery */
-.galleryBar{
-  display:flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 14px 0 18px;
-}
-.input, .select{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  color: var(--text);
-  padding: 10px 12px;
-  font-weight: 800;
-  outline: none;
-}
-.input{ flex: 1 1 240px; }
-.select{ flex: 0 0 auto; }
+    <!-- WORKFLOW -->
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="section__head">
+          <h2>Workflow</h2>
+          <p>How I take a build from idea → finished.</p>
+        </div>
 
-.galleryGrid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-.gcard{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  overflow: hidden;
-}
-.gimg{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  display: block;
-  background: #000;
-}
-.gcap{
-  padding: 10px 12px;
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 13px;
-  word-break: break-word;
-}
+        <div class="box">
+          <div class="highlights">
+            <div class="highlight">
+              <h4>1) Blockout</h4>
+              <p>Scale checks, layout, flow.</p>
+            </div>
+            <div class="highlight">
+              <h4>2) Style pass</h4>
+              <p>Materials, palette, mood.</p>
+            </div>
+            <div class="highlight">
+              <h4>3) Polish</h4>
+              <p>Details, collisions, budgets.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-/* Footer */
-.footer{
-  border-top: 1px solid var(--border);
-  padding: 18px 0;
-  color: var(--muted);
-}
-.footer__inner{
-  display:flex; justify-content:space-between; align-items:center; gap: 12px;
-  flex-wrap: wrap;
-}
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section__head">
+          <h2>Contact</h2>
+          <p>Commission / collaboration:</p>
+        </div>
 
-/* Responsive */
-@media (max-width: 980px){
-  .hero__grid{ grid-template-columns: 1fr; }
-  .grid{ grid-template-columns: 1fr 1fr; }
-  .galleryGrid{ grid-template-columns: 1fr 1fr; }
-  .highlights{ grid-template-columns: 1fr; }
-}
-@media (max-width: 720px){
-  .nav, .header__actions{ display:none; }
-  .menu{ display:block; }
-  .grid{ grid-template-columns: 1fr; }
-  .galleryGrid{ grid-template-columns: 1fr; }
-  .twoCol{ grid-template-columns: 1fr; }
-}
+        <div class="twoCol">
+          <div class="box">
+            <h3>Links</h3>
+            <p class="mono">Email: YOUR_EMAIL</p>
+            <p class="mono">Discord: YOUR_TAG</p>
+            <div class="row">
+              <a class="btn btn--primary" href="mailto:YOUR_EMAIL">Email</a>
+              <a class="btn btn--ghost" href="https://github.com/Snoxey" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+            <p class="tiny">GitHub Pages is static — best contact is email/Discord.</p>
+          </div>
+
+          <div class="box">
+            <h3>Commission info</h3>
+            <ul class="list">
+              <li><strong>Deliverables:</strong> environment build, prop pack, modular kit</li>
+              <li><strong>Needed:</strong> references, style direction, size + deadline</li>
+              <li><strong>Output:</strong> .rbxl/.rbxlx + assets folder</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>© <span id="year"></span> Snoxey</p>
+      <a href="#top" class="mono">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
