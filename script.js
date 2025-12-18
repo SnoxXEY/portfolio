@@ -103,6 +103,7 @@ function renderGallery() {
     return;
   }
 
+  // No filename captions; click opens image in new tab
   grid.innerHTML = sorted.map((img) => {
     const safeName = escapeHtml(img.name);
     return `
