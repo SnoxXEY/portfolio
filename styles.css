@@ -128,20 +128,6 @@ h1{
 .lead{ margin: 0 0 18px; color: var(--muted); font-size: 16px; line-height: 1.7; }
 .hero__cta{ display:flex; flex-wrap:wrap; gap: 10px; margin-bottom: 18px; }
 
-/* Stats */
-.hero__stats{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-}
-.stat{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 12px;
-}
-.stat__num{ font-weight: 900; font-size: 16px; }
-.stat__label{ color: var(--muted); font-size: 13px; margin-top: 4px; }
-
 /* Cards */
 .hero__card{ display:flex; flex-direction:column; gap: 12px; }
 .card{
@@ -196,20 +182,6 @@ h1{
 }
 .list{ margin: 10px 0 0; padding-left: 18px; color: var(--muted); line-height: 1.7; }
 
-.highlights{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 14px;
-}
-.highlight{
-  border: 1px solid var(--border);
-  background: transparent;
-  padding: 12px;
-}
-.highlight h4{ margin: 0 0 6px; }
-.highlight p{ margin: 0; color: var(--muted); line-height: 1.55; }
-
 .row{ display:flex; gap: 10px; flex-wrap:wrap; margin-top: 10px; }
 
 .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -233,13 +205,11 @@ h1{
 .input{ flex: 1 1 240px; }
 .select{ flex: 0 0 auto; }
 
-/* Masonry layout (CSS columns) */
+/* Masonry (CSS columns) */
 .galleryGrid{
   column-count: 3;
   column-gap: var(--gap);
 }
-
-/* Each item must avoid breaking across columns */
 .gcard{
   display: block;
   border: 1px solid var(--border);
@@ -249,8 +219,6 @@ h1{
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
 }
-
-/* Full image, no crop */
 .gimg{
   width: 100%;
   height: auto;
@@ -269,10 +237,9 @@ h1{
   flex-wrap: wrap;
 }
 
-/* Responsive columns */
+/* Responsive */
 @media (max-width: 980px){
   .hero__grid{ grid-template-columns: 1fr; }
-  .highlights{ grid-template-columns: 1fr; }
   .galleryGrid{ column-count: 2; }
 }
 @media (max-width: 720px){
