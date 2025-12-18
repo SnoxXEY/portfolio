@@ -27,7 +27,7 @@ html{ scroll-behavior: smooth; }
 body{
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  background: var(--bg); /* plain background */
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -182,25 +182,6 @@ h1{
 .section__head h2{ margin:0 0 8px; font-size: 26px; letter-spacing:-.3px; }
 .section__head p{ margin:0; color: var(--muted); }
 
-.grid{
-  display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-.pcard{
-  border: 1px solid var(--border);
-  background: var(--panel);
-  padding: 14px;
-}
-.pcard__meta{ display:flex; gap: 8px; flex-wrap:wrap; margin-bottom: 10px; }
-.tag{
-  font-size: 12px; font-weight: 900;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  background: transparent;
-  padding: 4px 8px;
-}
-
 .twoCol{
   display:grid;
   grid-template-columns: 1fr 1fr;
@@ -289,14 +270,12 @@ h1{
 /* Responsive */
 @media (max-width: 980px){
   .hero__grid{ grid-template-columns: 1fr; }
-  .grid{ grid-template-columns: 1fr 1fr; }
   .galleryGrid{ grid-template-columns: 1fr 1fr; }
   .highlights{ grid-template-columns: 1fr; }
 }
 @media (max-width: 720px){
   .nav, .header__actions{ display:none; }
   .menu{ display:block; }
-  .grid{ grid-template-columns: 1fr; }
   .galleryGrid{ grid-template-columns: 1fr; }
   .twoCol{ grid-template-columns: 1fr; }
 }
