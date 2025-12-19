@@ -5,11 +5,8 @@
   --text: #eaeaea;
   --muted:#a8a8a8;
   --border:#222222;
-  --shadow: none;
 
-  --radius: 0px;
   --max: 1100px;
-
   --gap: 14px;
 }
 
@@ -135,27 +132,20 @@ h1{
   color: var(--text);
 }
 
-/* =========================================================
-   ✅ FIXED: True masonry columns inside each category
-   ========================================================= */
-
-/* Base gallery container */
+/* Masonry columns inside each category */
 .galleryGrid{
-  display: block;          /* IMPORTANT: not grid/flex */
+  display: block;
   column-gap: var(--gap);
 }
-
-/* Each side (Models/Builds) uses 3 masonry columns */
 .galleryGrid--single{
-  display: block;          /* overrides any previous display:grid */
+  display: block;
   column-count: 3;
   column-gap: var(--gap);
   column-fill: balance;
 }
 
-/* Item must not split between columns */
 .gcard{
-  display: inline-block;   /* helps columns behave correctly */
+  display: inline-block;
   width: 100%;
   border: 1px solid var(--border);
   background: #000;
@@ -163,9 +153,9 @@ h1{
   margin: 0 0 var(--gap);
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
+  cursor: zoom-in;
 }
 
-/* Image */
 .gimg{
   width: 100%;
   height: auto;
@@ -185,6 +175,30 @@ h1{
   align-items:center;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+/* ✅ Lightbox */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+}
+
+.lightbox__backdrop{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+}
+
+.lightbox__img{
+  position: relative;
+  max-width: min(92vw, 1400px);
+  max-height: 88vh;
+  border: 1px solid var(--border);
+  background: #000;
+  cursor: zoom-out;
 }
 
 /* Responsive */
