@@ -18,6 +18,40 @@ let currentList = [];
 let currentIndex = 0;
 let wheelLockUntil = 0;
 
+/* -----------------------------
+   Disable right-click + some shortcuts
+   ----------------------------- */
+
+// Disable context menu everywhere
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+}, { capture: true });
+
+// Prevent dragging images (drag-to-save)
+document.addEventListener("dragstart", (e) => {
+  const t = e.target;
+  if (t && (t.tagName === "IMG" || t.closest?.("img"))) {
+    e.preventDefault();
+  }
+}, { capture: true });
+
+// Block common "view source / devtools / save" shortcuts
+document.addEventListener("keydown", (e) => {
+  const key = e.key.toLowerCase();
+
+  // Save page
+  if (e.ctrlKey && key === "s") { e.preventDefault(); return; }
+
+  // View source
+  if (e.ctrlKey && key === "u") { e.preventDefault(); return; }
+
+  // Devtools combos
+  if (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(key)) { e.preventDefault(); return; }
+
+  // F12
+  if (e.key === "F12") { e.preventDefault(); return; }
+}, { capture: true });
+
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -115,7 +149,7 @@ function prevImage() {
   updateLightbox();
 }
 
-// Close on click backdrop. Also allow click on the big image to close (your earlier request).
+// Close on click backdrop. Also allow click on the big image to close.
 lightbox?.addEventListener("click", (e) => {
   const target = e.target;
   if (target?.dataset?.close === "1") closeLightbox();
@@ -137,7 +171,7 @@ lightbox?.addEventListener("wheel", (e) => {
   else prevImage();
 }, { passive: true });
 
-// Keyboard nav
+// Keyboard nav (only when lightbox open)
 document.addEventListener("keydown", (e) => {
   if (!lightbox || lightbox.hidden) return;
 
@@ -155,22 +189,21 @@ function renderGroupsInto(el, groups) {
   }
 
   el.innerHTML = groups.map((g, idx) => {
-    const top = g.items[0];                  // number-priority on top (lowest number)
-    const back = g.items[1];                 // peek of the next one (if exists)
+    const top = g.items[0];        // number-priority on top
+    const back = g.items[1];       // peek (if exists)
 
     const topName = escapeHtml(top.name);
     const topUrl = top.download_url;
 
     const backImgHtml = back
-      ? `<img class="gimg gimg--back" src="${back.download_url}" alt="" loading="lazy">`
+      ? `<img class="gimg gimg--back" src="${back.download_url}" alt="" loading="lazy" draggable="false">`
       : "";
 
-    // Store the group's images in data attribute by index (we map in JS after)
     return `
       <div class="gcard" role="button" tabindex="0" data-group-index="${idx}" aria-label="Open ${topName}">
         <div class="gimgWrap">
           ${backImgHtml}
-          <img class="gimg gimg--front" src="${topUrl}" alt="${topName}" loading="lazy">
+          <img class="gimg gimg--front" src="${topUrl}" alt="${topName}" loading="lazy" draggable="false">
         </div>
       </div>
     `;
@@ -201,12 +234,10 @@ function groupImagesByName(images, tagLetter) {
   for (const img of images) {
     const key = getGroupKey(img.name, tagLetter);
     if (!key) continue;
-
     if (!map.has(key)) map.set(key, []);
     map.get(key).push(img);
   }
 
-  // Sort items within each group by number, then name
   const groups = [];
   for (const [key, list] of map.entries()) {
     list.sort((a, b) => {
@@ -218,7 +249,6 @@ function groupImagesByName(images, tagLetter) {
     groups.push({ key, items: list });
   }
 
-  // Sort groups by their "top" image number priority
   groups.sort((ga, gb) => {
     const aTop = ga.items[0] ? getFileNumber(ga.items[0].name) : Number.MAX_SAFE_INTEGER;
     const bTop = gb.items[0] ? getFileNumber(gb.items[0].name) : Number.MAX_SAFE_INTEGER;
