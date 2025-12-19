@@ -11,6 +11,12 @@ const buildsGrid = document.getElementById("buildsGrid");
 // Lightbox elements
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
+const lbPrev = document.getElementById("lbPrev");
+const lbNext = document.getElementById("lbNext");
+
+let currentList = [];
+let currentIndex = 0;
+let wheelLockUntil = 0;
 
 function escapeHtml(str) {
   return String(str)
@@ -21,8 +27,7 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-// Prefer number right before extension, else last number anywhere.
-// No number => bottom.
+// Prefer number right before extension, else last number anywhere. No number => bottom.
 function getFileNumber(name) {
   const beforeExt = name.match(/(\d+)(?=\.[^.]+$)/);
   if (beforeExt) return parseInt(beforeExt[1], 10);
@@ -41,14 +46,51 @@ function hasTag(name, tagLetter) {
   return re.test(n);
 }
 
-// Lightbox open/close
-function openLightbox(src, altText) {
+// Build a grouping key: remove extension, remove trailing number, remove the M/B tag token, normalize.
+function getGroupKey(filename, tagLetter) {
+  let stem = filename.replace(/\.[^.]+$/, "");
+
+  // Remove trailing separators + digits (e.g. _01, -02, 03)
+  stem = stem.replace(/([_\-\s]*)(\d+)$/, "");
+
+  // Remove the tag as a token
+  const t = tagLetter.toUpperCase();
+  const reTag = new RegExp(`(^|[\\s_\\-])${t}(?=([\\s_\\-]|$))`, "i");
+  stem = stem.replace(reTag, "$1");
+
+  // Normalize
+  stem = stem
+    .replace(/[\s\-]+/g, "_")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "");
+
+  return stem.toLowerCase();
+}
+
+// ---------- Lightbox ----------
+function updateLightbox() {
   if (!lightbox || !lightboxImg) return;
-  lightboxImg.src = src;
-  lightboxImg.alt = altText || "";
+  if (!currentList.length) return;
+
+  const item = currentList[currentIndex];
+  lightboxImg.src = item.download_url;
+  lightboxImg.alt = item.name || "";
+
+  const showNav = currentList.length > 1;
+  if (lbPrev) lbPrev.hidden = !showNav;
+  if (lbNext) lbNext.hidden = !showNav;
+}
+
+function openLightbox(list, startIndex) {
+  currentList = list;
+  currentIndex = Math.max(0, Math.min(startIndex, list.length - 1));
+
+  if (!lightbox) return;
   lightbox.hidden = false;
   lightbox.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+
+  updateLightbox();
 }
 
 function closeLightbox() {
@@ -57,64 +99,144 @@ function closeLightbox() {
   lightbox.setAttribute("aria-hidden", "true");
   lightboxImg.src = "";
   document.body.style.overflow = "";
+  currentList = [];
+  currentIndex = 0;
 }
 
-// Close on click (backdrop or image)
+function nextImage() {
+  if (currentList.length <= 1) return;
+  currentIndex = (currentIndex + 1) % currentList.length;
+  updateLightbox();
+}
+
+function prevImage() {
+  if (currentList.length <= 1) return;
+  currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+  updateLightbox();
+}
+
+// Close on click backdrop. Also allow click on the big image to close (your earlier request).
 lightbox?.addEventListener("click", (e) => {
   const target = e.target;
-  if (target === lightboxImg || target?.dataset?.close === "1") {
-    closeLightbox();
-  }
+  if (target?.dataset?.close === "1") closeLightbox();
+  else if (target === lightboxImg) closeLightbox();
 });
 
-// Close on ESC
+lbPrev?.addEventListener("click", (e) => { e.stopPropagation(); prevImage(); });
+lbNext?.addEventListener("click", (e) => { e.stopPropagation(); nextImage(); });
+
+// Scroll wheel to navigate (throttled)
+lightbox?.addEventListener("wheel", (e) => {
+  if (lightbox.hidden) return;
+  const now = Date.now();
+  if (now < wheelLockUntil) return;
+  wheelLockUntil = now + 220;
+
+  if (Math.abs(e.deltaY) < 5) return;
+  if (e.deltaY > 0) nextImage();
+  else prevImage();
+}, { passive: true });
+
+// Keyboard nav
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
+  if (!lightbox || lightbox.hidden) return;
+
+  if (e.key === "Escape") closeLightbox();
+  else if (e.key === "ArrowRight") nextImage();
+  else if (e.key === "ArrowLeft") prevImage();
 });
 
-function renderInto(el, items) {
+// ---------- Rendering ----------
+function renderGroupsInto(el, groups) {
   if (!el) return;
-  if (!items.length) {
+  if (!groups.length) {
     el.innerHTML = "";
     return;
   }
 
-  // Use buttons/divs instead of <a> so it doesn't open a new tab
-  el.innerHTML = items.map(img => {
-    const safeName = escapeHtml(img.name);
-    const safeUrl = img.download_url;
+  el.innerHTML = groups.map((g, idx) => {
+    const top = g.items[0];                  // number-priority on top (lowest number)
+    const back = g.items[1];                 // peek of the next one (if exists)
+
+    const topName = escapeHtml(top.name);
+    const topUrl = top.download_url;
+
+    const backImgHtml = back
+      ? `<img class="gimg gimg--back" src="${back.download_url}" alt="" loading="lazy">`
+      : "";
+
+    // Store the group's images in data attribute by index (we map in JS after)
     return `
-      <div class="gcard" role="button" tabindex="0"
-           data-src="${safeUrl}" data-alt="${safeName}"
-           aria-label="Open ${safeName}">
-        <img class="gimg" src="${safeUrl}" alt="${safeName}" loading="lazy">
+      <div class="gcard" role="button" tabindex="0" data-group-index="${idx}" aria-label="Open ${topName}">
+        <div class="gimgWrap">
+          ${backImgHtml}
+          <img class="gimg gimg--front" src="${topUrl}" alt="${topName}" loading="lazy">
+        </div>
       </div>
     `;
   }).join("");
+}
 
-  // Click / Enter / Space to open lightbox
+function bindGroupClicks(el, groups) {
+  if (!el) return;
+
   el.querySelectorAll(".gcard").forEach(card => {
-    const src = card.getAttribute("data-src");
-    const alt = card.getAttribute("data-alt") || "";
+    const gi = parseInt(card.getAttribute("data-group-index"), 10);
+    const group = groups[gi];
+    if (!group) return;
 
-    card.addEventListener("click", () => openLightbox(src, alt));
+    card.addEventListener("click", () => openLightbox(group.items, 0));
     card.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        openLightbox(src, alt);
+        openLightbox(group.items, 0);
       }
     });
   });
 }
 
-async function loadAndSplitGallery() {
+function groupImagesByName(images, tagLetter) {
+  const map = new Map();
+
+  for (const img of images) {
+    const key = getGroupKey(img.name, tagLetter);
+    if (!key) continue;
+
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(img);
+  }
+
+  // Sort items within each group by number, then name
+  const groups = [];
+  for (const [key, list] of map.entries()) {
+    list.sort((a, b) => {
+      const na = getFileNumber(a.name);
+      const nb = getFileNumber(b.name);
+      if (na !== nb) return na - nb;
+      return a.name.localeCompare(b.name);
+    });
+    groups.push({ key, items: list });
+  }
+
+  // Sort groups by their "top" image number priority
+  groups.sort((ga, gb) => {
+    const aTop = ga.items[0] ? getFileNumber(ga.items[0].name) : Number.MAX_SAFE_INTEGER;
+    const bTop = gb.items[0] ? getFileNumber(gb.items[0].name) : Number.MAX_SAFE_INTEGER;
+    if (aTop !== bTop) return aTop - bTop;
+    return ga.key.localeCompare(gb.key);
+  });
+
+  return groups;
+}
+
+async function loadAndRender() {
   const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ASSETS_PATH}`;
 
   try {
     const res = await fetch(apiUrl, { headers: { "Accept": "application/vnd.github+json" } });
     if (!res.ok) {
-      renderInto(modelsGrid, []);
-      renderInto(buildsGrid, []);
+      if (modelsGrid) modelsGrid.innerHTML = "";
+      if (buildsGrid) buildsGrid.innerHTML = "";
       return;
     }
 
@@ -125,30 +247,21 @@ async function loadAndSplitGallery() {
       .filter(x => exts.some(ext => x.name.toLowerCase().endsWith(ext)))
       .filter(x => !EXCLUDE_NAMES.has(x.name.toLowerCase()));
 
-    const models = [];
-    const builds = [];
+    const models = images.filter(img => hasTag(img.name, "M"));
+    const builds = images.filter(img => hasTag(img.name, "B"));
 
-    for (const img of images) {
-      if (hasTag(img.name, "M")) models.push(img);
-      else if (hasTag(img.name, "B")) builds.push(img);
-    }
+    const modelGroups = groupImagesByName(models, "M");
+    const buildGroups = groupImagesByName(builds, "B");
 
-    const sorter = (a, b) => {
-      const na = getFileNumber(a.name);
-      const nb = getFileNumber(b.name);
-      if (na !== nb) return na - nb;
-      return a.name.localeCompare(b.name);
-    };
+    renderGroupsInto(modelsGrid, modelGroups);
+    bindGroupClicks(modelsGrid, modelGroups);
 
-    models.sort(sorter);
-    builds.sort(sorter);
-
-    renderInto(modelsGrid, models);
-    renderInto(buildsGrid, builds);
+    renderGroupsInto(buildsGrid, buildGroups);
+    bindGroupClicks(buildsGrid, buildGroups);
   } catch {
-    renderInto(modelsGrid, []);
-    renderInto(buildsGrid, []);
+    if (modelsGrid) modelsGrid.innerHTML = "";
+    if (buildsGrid) buildsGrid.innerHTML = "";
   }
 }
 
-loadAndSplitGallery();
+loadAndRender();
