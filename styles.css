@@ -7,7 +7,7 @@
   --border:#222222;
 
   --max: 1400px;
-  --gap: 2px; /* ✅ smaller gaps = bigger looking tiles */
+  --gap: 4px; /* ✅ smaller gaps = bigger looking tiles */
 }
 
 *{ box-sizing: border-box; }
@@ -276,6 +276,7 @@ h1{
 @media (max-width: 720px){
   .galleryGrid--single{ column-count: 1; }
 }
+
 
 
 
