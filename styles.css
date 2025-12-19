@@ -128,13 +128,12 @@ h1{
 
 /* Masonry (CSS columns) */
 .galleryGrid{
-  column-count: 3;
   column-gap: var(--gap);
 }
 
-/* Single-column masonry (for each side) */
+/* ✅ Each side now uses 3 columns */
 .galleryGrid--single{
-  column-count: 1;
+  column-count: 3;
 }
 
 .gcard{
@@ -169,4 +168,8 @@ h1{
 @media (max-width: 980px){
   .hero__grid{ grid-template-columns: 1fr; }
   .splitGallery{ grid-template-columns: 1fr; }
+  .galleryGrid--single{ column-count: 2; }
+}
+@media (max-width: 720px){
+  .galleryGrid--single{ column-count: 1; }
 }
