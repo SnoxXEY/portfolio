@@ -18,38 +18,11 @@ let currentList = [];
 let currentIndex = 0;
 let wheelLockUntil = 0;
 
-/* -----------------------------
-   Disable right-click + some shortcuts
-   ----------------------------- */
-
-// Disable context menu everywhere
-document.addEventListener("contextmenu", (e) => {
-  e.preventDefault();
-}, { capture: true });
-
-// Prevent dragging images (drag-to-save)
+/* Disable right-click + drag-save */
+document.addEventListener("contextmenu", (e) => e.preventDefault(), { capture: true });
 document.addEventListener("dragstart", (e) => {
   const t = e.target;
-  if (t && (t.tagName === "IMG" || t.closest?.("img"))) {
-    e.preventDefault();
-  }
-}, { capture: true });
-
-// Block common "view source / devtools / save" shortcuts
-document.addEventListener("keydown", (e) => {
-  const key = e.key.toLowerCase();
-
-  // Save page
-  if (e.ctrlKey && key === "s") { e.preventDefault(); return; }
-
-  // View source
-  if (e.ctrlKey && key === "u") { e.preventDefault(); return; }
-
-  // Devtools combos
-  if (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(key)) { e.preventDefault(); return; }
-
-  // F12
-  if (e.key === "F12") { e.preventDefault(); return; }
+  if (t && t.tagName === "IMG") e.preventDefault();
 }, { capture: true });
 
 function escapeHtml(str) {
@@ -61,7 +34,6 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-// Prefer number right before extension, else last number anywhere. No number => bottom.
 function getFileNumber(name) {
   const beforeExt = name.match(/(\d+)(?=\.[^.]+$)/);
   if (beforeExt) return parseInt(beforeExt[1], 10);
@@ -72,7 +44,6 @@ function getFileNumber(name) {
   return Number.MAX_SAFE_INTEGER;
 }
 
-// Detect tag letter as a token: _M_, -M-, " M ", _M01_ etc.
 function hasTag(name, tagLetter) {
   const n = name.toUpperCase();
   const t = tagLetter.toUpperCase();
@@ -80,19 +51,14 @@ function hasTag(name, tagLetter) {
   return re.test(n);
 }
 
-// Build a grouping key: remove extension, remove trailing number, remove the M/B tag token, normalize.
 function getGroupKey(filename, tagLetter) {
   let stem = filename.replace(/\.[^.]+$/, "");
-
-  // Remove trailing separators + digits (e.g. _01, -02, 03)
   stem = stem.replace(/([_\-\s]*)(\d+)$/, "");
 
-  // Remove the tag as a token
   const t = tagLetter.toUpperCase();
   const reTag = new RegExp(`(^|[\\s_\\-])${t}(?=([\\s_\\-]|$))`, "i");
   stem = stem.replace(reTag, "$1");
 
-  // Normalize
   stem = stem
     .replace(/[\s\-]+/g, "_")
     .replace(/_+/g, "_")
@@ -101,10 +67,9 @@ function getGroupKey(filename, tagLetter) {
   return stem.toLowerCase();
 }
 
-// ---------- Lightbox ----------
+/* ---------- Lightbox ---------- */
 function updateLightbox() {
-  if (!lightbox || !lightboxImg) return;
-  if (!currentList.length) return;
+  if (!lightbox || !lightboxImg || !currentList.length) return;
 
   const item = currentList[currentIndex];
   lightboxImg.src = item.download_url;
@@ -149,17 +114,15 @@ function prevImage() {
   updateLightbox();
 }
 
-// Close on click backdrop. Also allow click on the big image to close.
 lightbox?.addEventListener("click", (e) => {
-  const target = e.target;
-  if (target?.dataset?.close === "1") closeLightbox();
-  else if (target === lightboxImg) closeLightbox();
+  const t = e.target;
+  if (t?.dataset?.close === "1") closeLightbox();
+  else if (t === lightboxImg) closeLightbox();
 });
 
 lbPrev?.addEventListener("click", (e) => { e.stopPropagation(); prevImage(); });
 lbNext?.addEventListener("click", (e) => { e.stopPropagation(); nextImage(); });
 
-// Scroll wheel to navigate (throttled)
 lightbox?.addEventListener("wheel", (e) => {
   if (lightbox.hidden) return;
   const now = Date.now();
@@ -171,63 +134,21 @@ lightbox?.addEventListener("wheel", (e) => {
   else prevImage();
 }, { passive: true });
 
-// Keyboard nav (only when lightbox open)
 document.addEventListener("keydown", (e) => {
-  if (!lightbox || lightbox.hidden) return;
+  // block common save/view-source/devtools shortcuts (optional hardening)
+  const key = e.key.toLowerCase();
+  if (e.ctrlKey && key === "s") { e.preventDefault(); return; }
+  if (e.ctrlKey && key === "u") { e.preventDefault(); return; }
+  if (e.ctrlKey && e.shiftKey && ["i","j","c"].includes(key)) { e.preventDefault(); return; }
+  if (e.key === "F12") { e.preventDefault(); return; }
 
+  if (!lightbox || lightbox.hidden) return;
   if (e.key === "Escape") closeLightbox();
   else if (e.key === "ArrowRight") nextImage();
   else if (e.key === "ArrowLeft") prevImage();
 });
 
-// ---------- Rendering ----------
-function renderGroupsInto(el, groups) {
-  if (!el) return;
-  if (!groups.length) {
-    el.innerHTML = "";
-    return;
-  }
-
-  el.innerHTML = groups.map((g, idx) => {
-    const top = g.items[0];        // number-priority on top
-    const back = g.items[1];       // peek (if exists)
-
-    const topName = escapeHtml(top.name);
-    const topUrl = top.download_url;
-
-    const backImgHtml = back
-      ? `<img class="gimg gimg--back" src="${back.download_url}" alt="" loading="lazy" draggable="false">`
-      : "";
-
-    return `
-      <div class="gcard" role="button" tabindex="0" data-group-index="${idx}" aria-label="Open ${topName}">
-        <div class="gimgWrap">
-          ${backImgHtml}
-          <img class="gimg gimg--front" src="${topUrl}" alt="${topName}" loading="lazy" draggable="false">
-        </div>
-      </div>
-    `;
-  }).join("");
-}
-
-function bindGroupClicks(el, groups) {
-  if (!el) return;
-
-  el.querySelectorAll(".gcard").forEach(card => {
-    const gi = parseInt(card.getAttribute("data-group-index"), 10);
-    const group = groups[gi];
-    if (!group) return;
-
-    card.addEventListener("click", () => openLightbox(group.items, 0));
-    card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openLightbox(group.items, 0);
-      }
-    });
-  });
-}
-
+/* ---------- Grouping + Rendering ---------- */
 function groupImagesByName(images, tagLetter) {
   const map = new Map();
 
@@ -257,6 +178,42 @@ function groupImagesByName(images, tagLetter) {
   });
 
   return groups;
+}
+
+function renderGroupsInto(el, groups) {
+  if (!el) return;
+  if (!groups.length) { el.innerHTML = ""; return; }
+
+  // Only render the "top" image per group (no behind-peek)
+  el.innerHTML = groups.map((g, idx) => {
+    const top = g.items[0];
+    const topName = escapeHtml(top.name);
+    const topUrl = top.download_url;
+
+    return `
+      <div class="gcard" role="button" tabindex="0" data-group-index="${idx}" aria-label="Open ${topName}">
+        <img class="gimg" src="${topUrl}" alt="${topName}" loading="lazy" draggable="false">
+      </div>
+    `;
+  }).join("");
+}
+
+function bindGroupClicks(el, groups) {
+  if (!el) return;
+
+  el.querySelectorAll(".gcard").forEach(card => {
+    const gi = parseInt(card.getAttribute("data-group-index"), 10);
+    const group = groups[gi];
+    if (!group) return;
+
+    card.addEventListener("click", () => openLightbox(group.items, 0));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLightbox(group.items, 0);
+      }
+    });
+  });
 }
 
 async function loadAndRender() {
