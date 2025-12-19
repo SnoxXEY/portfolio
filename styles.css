@@ -68,7 +68,12 @@ h1{
   margin: 0 0 12px;
   letter-spacing: -0.5px;
 }
-.lead{ margin: 0 0 18px; color: var(--muted); font-size: 16px; line-height: 1.7; }
+.lead{
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
 .hero__cta{ display:flex; flex-wrap:wrap; gap: 10px; margin-bottom: 18px; }
 
 /* Profile card */
@@ -103,7 +108,11 @@ h1{
 /* Sections */
 .section{ padding: 46px 0; }
 .section__head{ margin-bottom: 18px; }
-.section__head h2{ margin:0 0 8px; font-size: 26px; letter-spacing:-.3px; }
+.section__head h2{
+  margin:0 0 8px;
+  font-size: 26px;
+  letter-spacing:-.3px;
+}
 
 /* Split gallery layout */
 .splitGallery{
@@ -126,18 +135,28 @@ h1{
   color: var(--text);
 }
 
-/* Masonry (CSS columns) */
+/* =========================================================
+   ✅ FIXED: True masonry columns inside each category
+   ========================================================= */
+
+/* Base gallery container */
 .galleryGrid{
+  display: block;          /* IMPORTANT: not grid/flex */
   column-gap: var(--gap);
 }
 
-/* ✅ Each side now uses 3 columns */
+/* Each side (Models/Builds) uses 3 masonry columns */
 .galleryGrid--single{
+  display: block;          /* overrides any previous display:grid */
   column-count: 3;
+  column-gap: var(--gap);
+  column-fill: balance;
 }
 
+/* Item must not split between columns */
 .gcard{
-  display: block;
+  display: inline-block;   /* helps columns behave correctly */
+  width: 100%;
   border: 1px solid var(--border);
   background: #000;
   padding: 10px;
@@ -146,6 +165,7 @@ h1{
   -webkit-column-break-inside: avoid;
 }
 
+/* Image */
 .gimg{
   width: 100%;
   height: auto;
@@ -160,7 +180,10 @@ h1{
   color: var(--muted);
 }
 .footer__inner{
-  display:flex; justify-content:space-between; align-items:center; gap: 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
