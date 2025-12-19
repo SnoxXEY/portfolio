@@ -7,20 +7,18 @@
   --border:#222222;
 
   --max: 1100px;
-  --gap: 14px;
+  --gap: 8px; /* ✅ smaller gaps = bigger looking tiles */
 }
 
 *{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
 
-/* ✅ Disable text selection everywhere */
+/* Disable text selection everywhere */
 body, body *{
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
-
-/* ✅ Still allow selection inside form fields if you ever add them */
 input, textarea, select, button{
   -webkit-user-select: text;
   user-select: text;
@@ -115,8 +113,8 @@ h1{
 .card__links a:hover{ color: var(--text); }
 
 /* Sections */
-.section{ padding: 46px 0; }
-.section__head{ margin-bottom: 18px; }
+.section{ padding: 40px 0; } /* slightly tighter */
+.section__head{ margin-bottom: 14px; }
 .section__head h2{
   margin:0 0 8px;
   font-size: 26px;
@@ -133,11 +131,11 @@ h1{
 .splitCol{
   border: 1px solid var(--border);
   background: var(--panel);
-  padding: 14px;
+  padding: 10px; /* ✅ less padding = more room for images */
   overflow: visible;
 }
 .splitTitle{
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   font-size: 16px;
   letter-spacing: .2px;
 }
@@ -160,25 +158,22 @@ h1{
   width: 100%;
   border: 1px solid var(--border);
   background: #000;
-  padding: 10px;
+  padding: 6px;          /* ✅ less padding around image */
   margin: 0 0 var(--gap);
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
 
   cursor: zoom-in;
-
   transition: transform 200ms ease, border-color 200ms ease;
   will-change: transform;
 }
 .gcard:hover{
-  transform: scale(1.03);
+  transform: scale(1.02); /* ✅ slightly smaller hover to avoid collisions */
   border-color: #444;
 }
 
-/* Stack wrapper so a "back" image can sit behind */
-.gimgWrap{
-  position: relative;
-}
+/* Stack wrapper */
+.gimgWrap{ position: relative; }
 
 /* Images */
 .gimg{
@@ -188,7 +183,7 @@ h1{
   background: #000;
 }
 
-/* Back image: darker + hidden until hover */
+/* Back image darker */
 .gimg--back{
   position: absolute;
   inset: 0;
@@ -204,16 +199,11 @@ h1{
   transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease;
   pointer-events: none;
 }
+.gimg--front{ position: relative; z-index: 2; }
 
-.gimg--front{
-  position: relative;
-  z-index: 2;
-}
-
-/* Reveal the "stack" on hover */
 .gcard:hover .gimg--back{
   opacity: 1;
-  transform: translate(8px, 8px);
+  transform: translate(6px, 6px); /* ✅ slightly tighter */
   filter: brightness(0.65) contrast(1.05);
 }
 
@@ -244,7 +234,6 @@ h1{
   inset: 0;
   background: rgba(0,0,0,0.85);
 }
-
 .lightbox__img{
   position: relative;
   max-width: min(92vw, 1400px);
@@ -254,7 +243,6 @@ h1{
   cursor: zoom-out;
   z-index: 2;
 }
-
 .lightbox__btn{
   position: absolute;
   top: 50%;
@@ -272,16 +260,11 @@ h1{
 
   display: grid;
   place-items: center;
-
   transition: background 150ms ease;
 }
-.lightbox__btn:hover{
-  background: rgba(0,0,0,0.75);
-}
-
+.lightbox__btn:hover{ background: rgba(0,0,0,0.75); }
 .lightbox__btn--left{ left: 18px; }
 .lightbox__btn--right{ right: 18px; }
-
 .lightbox__btn[hidden]{ display: none !important; }
 
 /* Responsive */
