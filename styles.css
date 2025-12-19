@@ -131,7 +131,7 @@ h1{
 .splitCol{
   border: 1px solid var(--border);
   background: var(--panel);
-  padding: 10px; /* ✅ less padding = more room for images */
+  padding: 4px; /* ✅ less padding = more room for images */
   overflow: visible;
 }
 .splitTitle{
@@ -276,5 +276,6 @@ h1{
 @media (max-width: 720px){
   .galleryGrid--single{ column-count: 1; }
 }
+
 
 
