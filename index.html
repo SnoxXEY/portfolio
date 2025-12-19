@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=999" />
+  <link rel="stylesheet" href="styles.css?v=20" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -84,13 +84,21 @@
     </div>
   </footer>
 
-  <!-- Lightbox -->
+  <!-- Lightbox / Carousel -->
   <div id="lightbox" class="lightbox" hidden aria-hidden="true">
     <div class="lightbox__backdrop" data-close="1"></div>
+
+    <button id="lbPrev" class="lightbox__btn lightbox__btn--left" type="button" aria-label="Previous image">
+      ‹
+    </button>
+
     <img id="lightboxImg" class="lightbox__img" alt="">
+
+    <button id="lbNext" class="lightbox__btn lightbox__btn--right" type="button" aria-label="Next image">
+      ›
+    </button>
   </div>
 
-  <script src="script.js?v=14"></script>
+  <script src="script.js?v=20"></script>
 </body>
 </html>
-
