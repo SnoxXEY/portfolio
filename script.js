@@ -8,6 +8,10 @@ const EXCLUDE_NAMES = new Set(["avatar.png"].map(x => x.toLowerCase()));
 const modelsGrid = document.getElementById("modelsGrid");
 const buildsGrid = document.getElementById("buildsGrid");
 
+// Lightbox elements
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+
 function escapeHtml(str) {
   return String(str)
     .replaceAll("&", "&amp;")
@@ -17,8 +21,8 @@ function escapeHtml(str) {
     .replaceAll("'", "&#039;");
 }
 
-// Prefer the number right before extension, else last number anywhere.
-// No number => goes to bottom.
+// Prefer number right before extension, else last number anywhere.
+// No number => bottom.
 function getFileNumber(name) {
   const beforeExt = name.match(/(\d+)(?=\.[^.]+$)/);
   if (beforeExt) return parseInt(beforeExt[1], 10);
@@ -29,14 +33,44 @@ function getFileNumber(name) {
   return Number.MAX_SAFE_INTEGER;
 }
 
-// Detect tag letter as a separate token (e.g. _M_, -M-, " M ", _M1_, _M01_ also works)
+// Detect tag letter as a token: _M_, -M-, " M ", _M01_ etc.
 function hasTag(name, tagLetter) {
   const n = name.toUpperCase();
   const t = tagLetter.toUpperCase();
-  // boundaries: start or _ - space, then tag, then boundary or digit or dot/end
   const re = new RegExp(`(^|[\\s_\\-])${t}(?=([\\s_\\-]|\\d|\\.|$))`, "i");
   return re.test(n);
 }
+
+// Lightbox open/close
+function openLightbox(src, altText) {
+  if (!lightbox || !lightboxImg) return;
+  lightboxImg.src = src;
+  lightboxImg.alt = altText || "";
+  lightbox.hidden = false;
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  if (!lightbox || !lightboxImg) return;
+  lightbox.hidden = true;
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImg.src = "";
+  document.body.style.overflow = "";
+}
+
+// Close on click (backdrop or image)
+lightbox?.addEventListener("click", (e) => {
+  const target = e.target;
+  if (target === lightboxImg || target?.dataset?.close === "1") {
+    closeLightbox();
+  }
+});
+
+// Close on ESC
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
+});
 
 function renderInto(el, items) {
   if (!el) return;
@@ -45,14 +79,32 @@ function renderInto(el, items) {
     return;
   }
 
+  // Use buttons/divs instead of <a> so it doesn't open a new tab
   el.innerHTML = items.map(img => {
     const safeName = escapeHtml(img.name);
+    const safeUrl = img.download_url;
     return `
-      <a class="gcard" href="${img.download_url}" target="_blank" rel="noreferrer" aria-label="Open ${safeName}">
-        <img class="gimg" src="${img.download_url}" alt="${safeName}" loading="lazy">
-      </a>
+      <div class="gcard" role="button" tabindex="0"
+           data-src="${safeUrl}" data-alt="${safeName}"
+           aria-label="Open ${safeName}">
+        <img class="gimg" src="${safeUrl}" alt="${safeName}" loading="lazy">
+      </div>
     `;
   }).join("");
+
+  // Click / Enter / Space to open lightbox
+  el.querySelectorAll(".gcard").forEach(card => {
+    const src = card.getAttribute("data-src");
+    const alt = card.getAttribute("data-alt") || "";
+
+    card.addEventListener("click", () => openLightbox(src, alt));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLightbox(src, alt);
+      }
+    });
+  });
 }
 
 async function loadAndSplitGallery() {
@@ -77,11 +129,8 @@ async function loadAndSplitGallery() {
     const builds = [];
 
     for (const img of images) {
-      const name = img.name;
-
-      if (hasTag(name, "M")) models.push(img);
-      else if (hasTag(name, "B")) builds.push(img);
-      // If neither tag exists, we ignore it (keeps the gallery clean)
+      if (hasTag(img.name, "M")) models.push(img);
+      else if (hasTag(img.name, "B")) builds.push(img);
     }
 
     const sorter = (a, b) => {
