@@ -123,6 +123,7 @@ h1{
   border: 1px solid var(--border);
   background: var(--panel);
   padding: 14px;
+  overflow: visible; /* allows hover scale to not feel clipped */
 }
 
 .splitTitle{
@@ -144,6 +145,7 @@ h1{
   column-fill: balance;
 }
 
+/* Gallery card + hover grow */
 .gcard{
   display: inline-block;
   width: 100%;
@@ -153,14 +155,30 @@ h1{
   margin: 0 0 var(--gap);
   break-inside: avoid;
   -webkit-column-break-inside: avoid;
+
   cursor: zoom-in;
+
+  /* smooth hover */
+  transition: transform 160ms ease, border-color 160ms ease;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
+/* Image */
 .gimg{
   width: 100%;
   height: auto;
   display: block;
   background: #000;
+
+  transition: transform 160ms ease;
+  transform: translateZ(0);
+}
+
+/* Hover effect */
+.gcard:hover{
+  transform: scale(1.03);
+  border-color: #444;
 }
 
 /* Footer */
@@ -177,7 +195,7 @@ h1{
   flex-wrap: wrap;
 }
 
-/* ✅ Lightbox */
+/* Lightbox */
 .lightbox{
   position: fixed;
   inset: 0;
