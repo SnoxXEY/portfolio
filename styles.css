@@ -13,6 +13,19 @@
 *{ box-sizing: border-box; }
 html{ scroll-behavior: smooth; }
 
+/* ✅ Disable text selection everywhere */
+body, body *{
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ✅ Still allow selection inside form fields if you ever add them */
+input, textarea, select, button{
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 body{
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -184,7 +197,6 @@ h1{
   object-fit: contain;
   z-index: 1;
 
-  /* ✅ darker back image */
   filter: brightness(0.55) contrast(1.05);
 
   opacity: 0;
@@ -198,12 +210,10 @@ h1{
   z-index: 2;
 }
 
-/* Reveal the "stack" on hover (still darker, a tiny bit less dark) */
+/* Reveal the "stack" on hover */
 .gcard:hover .gimg--back{
   opacity: 1;
   transform: translate(8px, 8px);
-
-  /* optional: slightly less dark on hover */
   filter: brightness(0.65) contrast(1.05);
 }
 
