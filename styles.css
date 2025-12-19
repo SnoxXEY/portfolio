@@ -175,7 +175,7 @@ h1{
   background: #000;
 }
 
-/* Back image: hidden until hover, then peeks behind */
+/* Back image: darker + hidden until hover */
 .gimg--back{
   position: absolute;
   inset: 0;
@@ -184,20 +184,27 @@ h1{
   object-fit: contain;
   z-index: 1;
 
+  /* ✅ darker back image */
+  filter: brightness(0.55) contrast(1.05);
+
   opacity: 0;
   transform: translate(10px, 10px);
-  transition: opacity 180ms ease, transform 180ms ease;
+  transition: opacity 180ms ease, transform 180ms ease, filter 180ms ease;
   pointer-events: none;
 }
+
 .gimg--front{
   position: relative;
   z-index: 2;
 }
 
-/* Reveal the "stack" on hover (only if it exists) */
+/* Reveal the "stack" on hover (still darker, a tiny bit less dark) */
 .gcard:hover .gimg--back{
   opacity: 1;
   transform: translate(8px, 8px);
+
+  /* optional: slightly less dark on hover */
+  filter: brightness(0.65) contrast(1.05);
 }
 
 /* Footer */
@@ -256,7 +263,7 @@ h1{
   display: grid;
   place-items: center;
 
-  transition: background 150ms ease, transform 150ms ease, opacity 150ms ease;
+  transition: background 150ms ease;
 }
 .lightbox__btn:hover{
   background: rgba(0,0,0,0.75);
